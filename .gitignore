@@ -36,3 +36,6 @@ dist/
 .DS_Store
 Thumbs.db
 .idea/
+scripts/setup_devcontainer.sh
+.devcontainer/devcontainer-lock.json
+.devcontainer/devcontainer.json
