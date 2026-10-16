@@ -204,7 +204,9 @@ def filter_training_rows(df: pd.DataFrame, contract: DatasetContract) -> pd.Data
     Decyzję i jej powód zapisz w notebooku 01.
     """
     keep = df[contract.target].map(label_text).notna()
-    return df.loc[keep].copy()
+    df_filtered = df.loc[keep].copy()
+
+    return df_filtered.drop_duplicates()
 
 
 # --- X / y i split -----------------------------------------------------------------------------
