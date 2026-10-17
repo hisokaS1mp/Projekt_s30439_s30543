@@ -16,15 +16,15 @@ powiązane, ale nie zawierają gotowych rozwiązań ani zadań do wykonania wcze
 
 | Pole | Wartość |
 |---|---|
-| Zespół i integrator Sprintu 1 | TODO |
-| Dataset (id z `docs/datasets.md`) | TODO |
-| Źródło, licencja i cytowanie (DOI) | TODO |
-| Data pobrania danych | TODO |
-| SHA-256 pliku danych (`fingerprint.json`) | TODO |
-| Dane osobowe w zbiorze i sposób postępowania | TODO |
-| Target i klasa pozytywna | TODO |
-| Metryka główna i uzasadnienie | TODO |
-| Użytkownik systemu i decyzja, którą wspiera model | TODO |
+| Zespół i integrator Sprintu 1 | Wiktoria Wydra, Oleksandra Sarry |
+| Dataset (id z `docs/datasets.md`) | online_shoppers |
+| Źródło, licencja i cytowanie (DOI) | https://doi.org/10.24432/C5F88Q |
+| Data pobrania danych | 16.10.2026 |
+| SHA-256 pliku danych (`fingerprint.json`) | b3055ee355f59134d851d32641183cb4a8b45def7124d2f50442a042f358e0d9 |
+| Dane osobowe w zbiorze i sposób postępowania | Brak danych osobych - tylko sesje prrzeglądarki |
+| Target i klasa pozytywna | Target: Revenue. Klasa pozytywna: true (sesja zakończona zakupem) |
+| Metryka główna i uzasadnienie | F1-score : zbiór jest niezbalansowany, tylko 15,5% obserwacji z klasą pozytywną. |
+| Użytkownik systemu i decyzja, którą wspiera model | Użytkownik: System analityczny sklepu e-commerce. Decyzja: Podjęcie automatycznej akcji marketingowej, aby zmotywować klienta do finalizacji transakcji w trwającej sesji |
 <!-- KARTA-PROJEKTU:END -->
 
 ## Mapa projektu
