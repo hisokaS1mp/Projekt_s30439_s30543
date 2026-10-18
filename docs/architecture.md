@@ -47,8 +47,27 @@ gotowy — sprawdza to `python scripts/check_dod.py`.
 
 <!-- DIAGRAM-V0:START -->
 ```mermaid
-flowchart LR
-    data["TODO: źródło danych"] --> model["TODO: kolejne elementy systemu"]
+flowchart TD
+    DATA["UCI Online Shoppers"]
+    CONTRACT["Kontrakt danych<br/>datasets.yaml + project.yaml"]
+
+    TRAIN["Przygotowanie i trening - S1<br/>normalizacja wejścia → filtrowanie tylko treningowe<br/>split → Pipeline: preprocessing + model<br/>docelowo Kedro - S2"]
+    MODEL["Pakiet modelu - S3<br/>dopasowany Pipeline"]
+    API["API - S4<br/>walidacja i ta sama normalizacja<br/>predykcja wczytanym modelem"]
+    UI["UI - S5<br/>analityk sklepu"]
+    DB[("Persistence - S4-S6<br/>zapis predykcji, Postgres")]
+    CLOUD["Cloud Run - S6<br/>wdrożenie API i UI"]
+
+    DATA --> TRAIN
+    CONTRACT -.-> TRAIN
+    CONTRACT -.-> API
+    TRAIN --> MODEL
+    MODEL -->|"wczytanie przy starcie"| API
+    UI -->|"dane sesji"| API
+    API -->|"klasa i prawdopodobieństwo zakupu"| UI
+    API --> DB
+    CLOUD -.-> API
+    CLOUD -.-> UI
 ```
 
 TODO: krótki opis diagramu (3–5 zdań).
