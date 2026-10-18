@@ -70,7 +70,7 @@ flowchart TD
     CLOUD -.-> UI
 ```
 
-TODO: krótki opis diagramu (3–5 zdań).
+W S1 korzystamy z danych UCI Online Shoppers zgodnie z kontraktem w datasets.yaml i project.yaml. Normalizacja działa zarówno podczas przygotowania danych, jak i predykcji, filtrowanie rekordów jest wykonywane tylko podczas przygotowania danych do treningu, a preprocessing modelu jest dopasowywany wyłącznie na train. Planowane API wczyta zapisany pipeline, zwróci analitykowi klasę i prawdopodobieństwo zakupu oraz zapisze predykcję w bazie. Elementy S2-S6 są planowane, w tym automatyzacja treningu w Kedro i wdrożenie API oraz UI w Cloud Run.
 <!-- DIAGRAM-V0:END -->
 
 ## Historia zmian architektury
