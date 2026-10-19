@@ -47,11 +47,30 @@ gotowy — sprawdza to `python scripts/check_dod.py`.
 
 <!-- DIAGRAM-V0:START -->
 ```mermaid
-flowchart LR
-    data["TODO: źródło danych"] --> model["TODO: kolejne elementy systemu"]
+flowchart TD
+    DATA["UCI Online Shoppers"]
+    CONTRACT["Kontrakt danych<br/>datasets.yaml + project.yaml"]
+
+    TRAIN["Przygotowanie i trening - S1<br/>normalizacja wejścia → filtrowanie tylko treningowe<br/>split → Pipeline: preprocessing + model<br/>docelowo Kedro - S2"]
+    MODEL["Pakiet modelu - S3<br/>dopasowany Pipeline"]
+    API["API - S4<br/>walidacja i ta sama normalizacja<br/>predykcja wczytanym modelem"]
+    UI["UI - S5<br/>analityk sklepu"]
+    DB[("Persistence - S4-S6<br/>zapis predykcji, Postgres")]
+    CLOUD["Cloud Run - S6<br/>wdrożenie API i UI"]
+
+    DATA --> TRAIN
+    CONTRACT -.-> TRAIN
+    CONTRACT -.-> API
+    TRAIN --> MODEL
+    MODEL -->|"wczytanie przy starcie"| API
+    UI -->|"dane sesji"| API
+    API -->|"klasa i prawdopodobieństwo zakupu"| UI
+    API --> DB
+    CLOUD -.-> API
+    CLOUD -.-> UI
 ```
 
-TODO: krótki opis diagramu (3–5 zdań).
+W S1 korzystamy z danych UCI Online Shoppers zgodnie z kontraktem w datasets.yaml i project.yaml. Normalizacja działa zarówno podczas przygotowania danych, jak i predykcji, filtrowanie rekordów jest wykonywane tylko podczas przygotowania danych do treningu, a preprocessing modelu jest dopasowywany wyłącznie na train. Planowane API wczyta zapisany pipeline, zwróci analitykowi klasę i prawdopodobieństwo zakupu oraz zapisze predykcję w bazie. Elementy S2-S6 są planowane, w tym automatyzacja treningu w Kedro i wdrożenie API oraz UI w Cloud Run.
 <!-- DIAGRAM-V0:END -->
 
 ## Historia zmian architektury
