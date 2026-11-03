@@ -25,3 +25,5 @@ dependencies:
   - nbclient=0.10.2
   - pytest=8.3.5
   - pre-commit=4.2.0
+  - kedro=1.7.0
+  - kedro-datasets=9.6.0
