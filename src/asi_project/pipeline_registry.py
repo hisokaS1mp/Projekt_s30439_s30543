@@ -1,14 +1,15 @@
-"""Rejestrowanie pipeline'ów Kedro (Sprint 2).
-
-Po przygotowaniu ``create_pipeline()`` w podpakietach
-``data_processing`` oraz ``data_science`` Kedro wykrywa je automatycznie.
-Ten plik NIE zawiera implementacji nodów ani gotowego pipeline'u.
-"""
-
-from kedro.framework.project import find_pipelines
 from kedro.pipeline import Pipeline
+
+from asi_project.pipelines.data_processing import create_pipeline as data_processing
+from asi_project.pipelines.data_science import create_pipeline as data_science
 
 
 def register_pipelines() -> dict[str, Pipeline]:
-    """Wykryj pipeline'y z ``src/asi_project/pipelines/``."""
-    return find_pipelines()
+    """Domyślnie uruchamia przygotowanie danych, trening i ewaluację."""
+    processing = data_processing()
+    science = data_science()
+    return {
+        "data_processing": processing,
+        "data_science": science,
+        "__default__": processing + science,
+    }

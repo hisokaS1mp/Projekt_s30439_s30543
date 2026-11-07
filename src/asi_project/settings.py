@@ -5,6 +5,10 @@ Logika przetwarzania pozostaje w ``data.py`` i ``model.py``.
 
 from kedro.config import OmegaConfigLoader
 
+from asi_project.hooks import ProjectHooks
+
+HOOKS = (ProjectHooks(),)
+
 CONFIG_LOADER_CLASS = OmegaConfigLoader
 CONFIG_LOADER_ARGS = {
     "base_env": "base",

@@ -40,3 +40,4 @@ Thumbs.db
 scripts/setup_devcontainer.sh
 .devcontainer/devcontainer-lock.json
 .devcontainer/devcontainer.json
+.telemetry
