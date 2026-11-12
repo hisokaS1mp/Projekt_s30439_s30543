@@ -18,10 +18,13 @@ where = ["src"]
 asi_project = ["datasets.yaml"]
 
 [tool.kedro]
+# Projekt Kedro działający wewnątrz istniejącego pakietu asi_project.
 package_name = "asi_project"
 project_name = "ASI Project"
 kedro_init_version = "1.7.0"
 source_dir = "src"
+tools = ""
+example_pipeline = "False"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

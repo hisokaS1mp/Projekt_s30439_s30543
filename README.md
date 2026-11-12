@@ -18,7 +18,7 @@ powiązane, ale nie zawierają gotowych rozwiązań ani zadań do wykonania wcze
 |---|---|
 | Zespół i integrator Sprintu 1 | Wiktoria Wydra, Oleksandra Sarry |
 | Dataset (id z `docs/datasets.md`) | online_shoppers |
-| Źródło, licencja i cytowanie (DOI) | https://doi.org/10.24432/C5F88Q |
+| Źródło, licencja i cytowanie (DOI) | https://doi.org/10.24432/C5F88Q UCI Machine Learning Repository, DOI: 10.24432/C5996Q (Licencja: CC BY 4.0) |
 | Data pobrania danych | 16.10.2026 |
 | SHA-256 pliku danych (`fingerprint.json`) | b3055ee355f59134d851d32641183cb4a8b45def7124d2f50442a042f358e0d9 |
 | Dane osobowe w zbiorze i sposób postępowania | Brak danych osobych - tylko sesje prrzeglądarki |
