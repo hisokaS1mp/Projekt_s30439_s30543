@@ -66,6 +66,9 @@ jobs:
         if: always()
         run: python scripts/check_dod.py --sprint 1
 
+      - name: Run Kedro pipeline (CI env)
+        run: kedro run --env ci
+
       # Future scaffold — kroki kolejnych sprintów (nieaktywne, dopisywane na starcie sprintu):
       # S2: kedro run --env ci (pipeline'y na próbce CI) i testy nodów (tests/pipelines/)
       # S3: WANDB_MODE=disabled, test zapisu i odczytu pakietu modelu
