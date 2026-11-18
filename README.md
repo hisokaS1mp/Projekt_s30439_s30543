@@ -191,3 +191,6 @@ Aby odtworzyć proces treningowy na pełnych danych:
 2. Upewnij się, że używasz środowiska wirtualnego: `conda activate asi-ml`
 3. Uruchom pipeline komendą:
     kedro run
+
+**Wyniki działania:**
+Po pomyślnym wykonaniu potoku (`kedro run`), wyuczony model zapisywany jest w katalogu `data/06_models/`, natomiast wygenerowane metryki ewaluacyjne modelu trafiają do katalogu `data/08_reporting/`.
