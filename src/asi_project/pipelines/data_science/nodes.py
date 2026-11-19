@@ -1,6 +1,7 @@
 from typing import Any
 
 import pandas as pd
+from autogluon.tabular import TabularPredictor
 from sklearn.pipeline import Pipeline
 
 from asi_project.config import DatasetContract, ProjectConfig
@@ -39,3 +40,18 @@ def evaluate_model(
 ) -> dict[str, Any]:
     """Oblicza metryki modelu na zbiorze testowym."""
     return compute_metrics(y_test, model.predict(X_test))
+
+
+def train_autogluon_model(
+    X_train: pd.DataFrame, y_train: pd.Series, target_col: str, time_limit: int, presets: str
+) -> TabularPredictor:
+    """
+    Trenuje model za pomocą AutoGluona z zadanym limitem czasu i konfiguracją.
+    """
+    train_data = X_train.copy()
+    train_data[target_col] = y_train
+
+    predictor = TabularPredictor(label=target_col, eval_metric="f1").fit(
+        train_data, time_limit=time_limit, presets=presets, verbosity=2
+    )
+    return predictor

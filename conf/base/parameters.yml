@@ -1,3 +1,13 @@
 split:
   test_size: 0.2
   random_state: 42
+
+target_col: "Revenue"
+
+ag_fast:
+  time_limit: 60
+  presets: "medium_quality"
+
+ag_hq:
+  time_limit: 120
+  presets: "good_quality"
