@@ -1,5 +1,7 @@
 from kedro.pipeline import Pipeline, node, pipeline
 
+from asi_project.tracking import log_baseline_to_wandb
+
 from .nodes import evaluate_model, split_data, train_model
 
 
@@ -30,6 +32,17 @@ def create_pipeline(**kwargs) -> Pipeline:
                 inputs=["model", "X_test", "y_test"],
                 outputs="metrics",
                 name="evaluate_model_node",
+            ),
+            node(
+                func=log_baseline_to_wandb,
+                inputs=[
+                    "metrics",
+                    "raw_data",
+                    "params:split.test_size",
+                    "params:split.random_state",
+                ],
+                outputs=None,
+                name="log_baseline_wandb_node",
             ),
         ]
     )
