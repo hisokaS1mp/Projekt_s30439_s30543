@@ -17,3 +17,9 @@ metrics:
   filepath: data/08_reporting/metrics.json
   save_args:
     indent: 2
+
+model_comparison:
+  type: kedro_datasets.pandas.CSVDataset
+  filepath: data/08_reporting/model_comparison.csv
+  save_args:
+    index: false
