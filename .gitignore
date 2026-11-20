@@ -41,3 +41,8 @@ scripts/setup_devcontainer.sh
 .devcontainer/devcontainer-lock.json
 .devcontainer/devcontainer.json
 .telemetry
+
+# Local IDE & ML artifacts
+.vscode/
+AutogluonModels/
+wandb/
