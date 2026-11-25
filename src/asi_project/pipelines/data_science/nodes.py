@@ -107,7 +107,6 @@ def benchmark_candidates(
     df_summary = pd.DataFrame(rows)
     df_summary = df_summary.drop(columns=["confusion_matrix"], errors="ignore")
     df_summary = df_summary.round(4)
-    
     return df_summary
 
 
