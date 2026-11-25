@@ -8,10 +8,6 @@ processed_data:
   save_args:
     index: false
 
-model:
-  type: pickle.PickleDataset
-  filepath: data/06_models/model.pkl
-
 metrics:
   type: json.JSONDataset
   filepath: data/08_reporting/metrics.json
