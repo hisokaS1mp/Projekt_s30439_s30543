@@ -46,3 +46,29 @@ def log_baseline_to_wandb(
 
     # Zakończenie runu
     wandb.finish()
+
+
+def log_autogluon_to_wandb(
+    metrics: dict[str, Any], raw_data: pd.DataFrame, time_limit: int, presets: str, run_name: str
+) -> None:
+    """Rejestruje eksperyment AutoGluon w Weights & Biases."""
+
+    # Inicjalizacja runu
+    wandb.init(project="online-shoppers", name=run_name, job_type="autogluon_experiment")
+
+    # Logowanie parametrów i metadanych
+    wandb.config.update(
+        {
+            "model_type": "autogluon",
+            "time_limit": time_limit,
+            "presets": presets,
+            "git_sha": get_git_sha(),
+            "data_fingerprint": get_data_fingerprint(raw_data),
+        }
+    )
+
+    # Logowanie wyników (metryk)
+    wandb.log(metrics)
+
+    # Zakończenie runu
+    wandb.finish()
