@@ -2,7 +2,14 @@ from kedro.pipeline import Pipeline, node, pipeline
 
 from asi_project.tracking import log_autogluon_to_wandb, log_baseline_to_wandb
 
-from .nodes import evaluate_model, split_data, train_autogluon_model, train_model
+from .nodes import (
+    benchmark_candidates,
+    evaluate_model,
+    export_production_package,
+    split_data,
+    train_autogluon_model,
+    train_model,
+)
 
 
 def create_pipeline(**kwargs) -> Pipeline:
@@ -103,6 +110,34 @@ def create_pipeline(**kwargs) -> Pipeline:
                 ],
                 outputs=None,
                 name="log_ag_hq_wandb_node",
+            ),
+            node(
+                func=benchmark_candidates,
+                inputs=[
+                    "X_test",
+                    "y_test",
+                    "params:target_col",
+                    "model",
+                    "metrics",
+                    "ag_fast_model",
+                    "ag_fast_metrics",
+                    "ag_hq_model",
+                    "ag_hq_metrics",
+                ],
+                outputs="model_comparison",
+                name="benchmark_candidates_node",
+            ),
+            node(
+                func=export_production_package,
+                inputs=[
+                    "ag_hq_model",
+                    "ag_hq_metrics",
+                    "X_test",
+                    "raw_data",
+                    "params:target_col",
+                ],
+                outputs=None,
+                name="export_production_package_node",
             ),
         ]
     )
