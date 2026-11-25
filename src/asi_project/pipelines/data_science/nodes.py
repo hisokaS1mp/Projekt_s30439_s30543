@@ -113,15 +113,7 @@ def benchmark_candidates(
                 }
             )
 
-    df_summary = pd.DataFrame(rows)
-    df_summary = df_summary.drop(columns=["confusion_matrix"], errors="ignore")
-    df_summary = df_summary.round(4)
-
-    # Czytelna wersja do README
-    md_path = Path("data/08_reporting/model_comparison.md")
-    md_path.parent.mkdir(parents=True, exist_ok=True)
-    md_path.write_text(df_summary.to_markdown(index=False), encoding="utf-8")
-    return df_summary
+    return pd.DataFrame(rows).drop(columns=["confusion_matrix"], errors="ignore").round(4)
 
 
 def export_production_package(
