@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 import tempfile
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import pandas as pd
-from autogluon.tabular import TabularPredictor
 from sklearn.pipeline import Pipeline
 
 from asi_project.config import DatasetContract, ProjectConfig
@@ -11,6 +12,10 @@ from asi_project.data import make_xy, split_train_test
 from asi_project.metrics import compute_metrics
 from asi_project.model import build_baseline_pipeline
 from asi_project.model_package import benchmark_model_package, save_model_package
+from asi_project.tracking import get_data_fingerprint, get_git_sha
+
+if TYPE_CHECKING:
+    from autogluon.tabular import TabularPredictor
 
 
 def split_data(
@@ -37,7 +42,7 @@ def train_model(
 
 
 def evaluate_model(
-    model: Pipeline,
+    model: Pipeline | TabularPredictor,
     X_test: pd.DataFrame,
     y_test: pd.Series,
 ) -> dict[str, Any]:
@@ -51,6 +56,8 @@ def train_autogluon_model(
     """
     Trenuje model za pomocą AutoGluona z zadanym limitem czasu i konfiguracją.
     """
+    from autogluon.tabular import TabularPredictor
+
     train_data = X_train.copy()
     train_data[target_col] = y_train
 
@@ -62,8 +69,8 @@ def train_autogluon_model(
 
 def benchmark_candidates(
     X_test: pd.DataFrame,
-    y_test: pd.Series,
-    target_col: str,
+    raw_data: pd.DataFrame,
+    contract: DatasetContract,
     baseline_model: Pipeline,
     baseline_metrics: dict[str, Any],
     ag_fast_model: TabularPredictor,
@@ -80,7 +87,8 @@ def benchmark_candidates(
 
     rows: list[dict[str, Any]] = []
     features = list(X_test.columns)
-    positive_class = 1
+    git_sha = get_git_sha()
+    data_fingerprint = get_data_fingerprint(raw_data)
 
     with tempfile.TemporaryDirectory(prefix="asi_bench_") as tmp_root:
         for name, mdl, mtype, met in candidates:
@@ -90,10 +98,11 @@ def benchmark_candidates(
                 package_dir=pkg_dir,
                 model_type=mtype,
                 features=features,
-                target=target_col,
-                positive_class=positive_class,
+                target=contract.target,
+                positive_class=contract.positive_class,
                 metrics=met,
-                fingerprint_df=X_test,
+                git_sha=git_sha,
+                data_fingerprint=data_fingerprint,
             )
             bench = benchmark_model_package(pkg_dir, X_test)
             rows.append(
@@ -104,10 +113,7 @@ def benchmark_candidates(
                 }
             )
 
-    df_summary = pd.DataFrame(rows)
-    df_summary = df_summary.drop(columns=["confusion_matrix"], errors="ignore")
-    df_summary = df_summary.round(4)
-    return df_summary
+    return pd.DataFrame(rows).drop(columns=["confusion_matrix"], errors="ignore").round(4)
 
 
 def export_production_package(
@@ -115,7 +121,7 @@ def export_production_package(
     metrics: dict[str, Any],
     X_test: pd.DataFrame,
     raw_data: pd.DataFrame,
-    target_col: str,
+    contract: DatasetContract,
     package_dir: str = "data/06_models/production_package",
 ) -> None:
     """Zapisuje wybrany model produkcyjny (ag_hq) wraz z metadata.json."""
@@ -124,8 +130,10 @@ def export_production_package(
         package_dir=package_dir,
         model_type="autogluon",
         features=list(X_test.columns),
-        target=target_col,
-        positive_class=1,
+        target=contract.target,
+        positive_class=contract.positive_class,
         metrics=metrics,
-        fingerprint_df=raw_data,
+        git_sha=get_git_sha(),
+        data_fingerprint=get_data_fingerprint(raw_data),
+        overwrite=True,
     )
