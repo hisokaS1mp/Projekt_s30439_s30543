@@ -20,9 +20,3 @@ Regresję odrzuciliśmy, bo przeoczyła większość zakupów. RAM nie rozstrzyg
 ## Konsekwencje
 API pobierze `online-shoppers-model:production` z W&B i wczyta `model/` oraz `metadata.json` przez `load_model_package()`.
 Opublikowana wersja `v0` waży 213,77 MiB. Smoke test zwrócił 5 poprawnych predykcji bez ponownego treningu.
-
-## Historia
-
-| Data | Zmiana |
-|---|---|
-| 2026-11-25 | Utworzenie ADR-2 |
